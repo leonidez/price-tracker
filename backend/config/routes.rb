@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "ping", to: "ping#show"
+      resources :stores, only: :index
+      resources :resolutions, only: :create
+      resources :watches, only: %i[index show create update destroy]
+      resources :devices, only: :create
     end
   end
 end

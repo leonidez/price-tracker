@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_05_120008) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_05_130001) do
   create_table "alert_rules", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "kind", null: false
@@ -35,8 +35,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_05_120008) do
     t.integer "consecutive_failures", default: 0, null: false
     t.datetime "created_at", null: false
     t.string "currency", default: "USD"
+    t.string "display_name"
     t.datetime "last_checked_at"
-    t.integer "product_id", null: false
+    t.integer "product_id"
     t.string "status", default: "active"
     t.integer "store_id", null: false
     t.json "store_ref", default: {}
