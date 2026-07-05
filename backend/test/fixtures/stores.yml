@@ -1,0 +1,25 @@
+walmart:
+  name: Walmart
+  slug: walmart
+  domain: walmart.com
+  adapter: walmart
+  config: {}
+  active: true
+
+target:
+  name: Target
+  slug: target
+  domain: target.com
+  adapter: target
+  config:
+    redsky_key: null
+    store_id: null
+  active: true
+
+generic:
+  name: Other (by URL)
+  slug: generic
+  domain: ""
+  adapter: generic
+  config: {}
+  active: true

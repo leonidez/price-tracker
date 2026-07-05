@@ -1,9 +1,25 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Idempotent store seeds. Safe to run repeatedly (find_or_create_by! on slug).
+
+Store.find_or_create_by!(slug: "walmart") do |store|
+  store.name = "Walmart"
+  store.domain = "walmart.com"
+  store.adapter = "walmart"
+  store.config = {}
+end
+
+Store.find_or_create_by!(slug: "target") do |store|
+  store.name = "Target"
+  store.domain = "target.com"
+  store.adapter = "target"
+  # redsky_key and store_id are filled in per issue #7 (grab from target.com in
+  # browser devtools: the `key` query param on any redsky.target.com request, and
+  # your chosen store's id). Left nil here so the adapter raises a clear config error.
+  store.config = { "redsky_key" => nil, "store_id" => nil }
+end
+
+Store.find_or_create_by!(slug: "generic") do |store|
+  store.name = "Other (by URL)"
+  store.domain = ""
+  store.adapter = "generic"
+  store.config = {}
+end

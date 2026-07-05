@@ -1,0 +1,12 @@
+cola:
+  gtin13: "0001234500012"
+  barcode_raw: "001234500012"
+  name: Acme Cola 12pk
+  brand: Acme
+  image_url: https://example.com/cola.jpg
+
+widget:
+  gtin13: "0009876500018"
+  barcode_raw: "009876500018"
+  name: Widget Deluxe
+  brand: Widgetco
