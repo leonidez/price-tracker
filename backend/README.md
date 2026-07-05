@@ -68,6 +68,14 @@ bin/rails "probe:walmart[<gtin13>]"
 bin/rails "probe:target[<gtin13>]"
 ```
 
+## Push notifications
+Notifications are delivered via Expo's push service (no APNs/FCM setup needed).
+Send a test push to every active device — the first thing to run when wiring the
+phone (mobile issue #15):
+```bash
+bin/rails push:test
+```
+
 ## Tests & lint
 ```bash
 bin/rails test       # minitest

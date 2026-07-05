@@ -85,9 +85,13 @@ class CheckPriceJobTest < ActiveJob::TestCase
     assert_equal 0, @listing.consecutive_failures
   end
 
-  test "does not enqueue a push when SendPushJob is undefined" do
-    assert_not defined?(SendPushJob), "guard assumption: SendPushJob is not defined until #11"
-    succeed_with(1_000)
-    assert_nothing_raised { CheckPriceJob.perform_now(@listing) }
+  test "enqueues a SendPushJob for each notification produced" do
+    watch = @listing.watches.create!(baseline_price_cents: 5_000, armed: true, active: true)
+    watch.alert_rules.create!(kind: "below_price", value_cents: 2_000)
+    succeed_with(1_500)
+
+    assert_enqueued_with(job: SendPushJob) do
+      CheckPriceJob.perform_now(@listing)
+    end
   end
 end

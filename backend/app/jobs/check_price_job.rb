@@ -53,8 +53,7 @@ class CheckPriceJob < ApplicationJob
     end
   end
 
-  # SendPushJob lands in #11; guard so this issue stands alone.
   def enqueue_push(notification)
-    SendPushJob.perform_later(notification) if defined?(SendPushJob)
+    SendPushJob.perform_later(notification)
   end
 end
