@@ -27,10 +27,7 @@ class StoreAdaptersTest < ActiveSupport::TestCase
     assert_raises(StoreAdapters::UnknownAdapter) { StoreAdapters.for(store) }
   end
 
-  test "placeholder adapters raise NotImplementedError until #6/#7" do
-    assert_raises(NotImplementedError) do
-      StoreAdapters.for(stores(:walmart)).check(listings(:cola_walmart))
-    end
+  test "the Target placeholder raises NotImplementedError until #7" do
     assert_raises(NotImplementedError) do
       StoreAdapters.for(stores(:target)).resolve(gtin13: "0036000291452")
     end
