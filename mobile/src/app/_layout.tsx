@@ -9,6 +9,8 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="watch/[id]" options={{ title: "Watch" }} />
+        <Stack.Screen name="add-url" options={{ title: "Add by URL" }} />
+        <Stack.Screen name="edit/[id]" options={{ title: "Edit watch" }} />
       </Stack>
     </QueryClientProvider>
   );

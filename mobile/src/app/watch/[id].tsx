@@ -134,6 +134,10 @@ export default function WatchDetailScreen() {
 
       <View style={styles.actions}>
         <Button
+          title="Edit"
+          onPress={() => router.push({ pathname: "/edit/[id]", params: { id: String(watchId) } })}
+        />
+        <Button
           title={watch.active ? "Pause" : "Resume"}
           onPress={() => toggleActive.mutate(!watch.active)}
           disabled={toggleActive.isPending}

@@ -42,9 +42,9 @@ export default function WatchesScreen() {
     return (
       <View style={styles.centered}>
         <Text style={styles.emptyTitle}>No watches yet</Text>
-        <Text style={styles.message}>Scan something to start tracking.</Text>
+        <Text style={styles.message}>Add a product by URL to start tracking.</Text>
         <View style={styles.disabledButton}>
-          <Button title="Add a watch" onPress={() => {}} disabled />
+          <Button title="Add by URL" onPress={() => router.push("/add-url")} />
         </View>
       </View>
     );

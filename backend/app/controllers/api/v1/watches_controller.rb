@@ -14,7 +14,12 @@ module Api
       end
 
       # POST /api/v1/watches — from a resolution (barcode) or from a URL.
+      # With dry_run: true (URL mode) the adapter resolves the price and returns
+      # it WITHOUT persisting — lets the app show the found price before rules
+      # are chosen.
       def create
+        return dry_run_url if params[:url].present? && dry_run?
+
         rules = rules_param
         return render_error("invalid_rules", message: "at least one rule is required", status: :unprocessable_entity) if rules.empty?
 
@@ -55,6 +60,27 @@ module Api
       end
 
       private
+
+      def dry_run?
+        ActiveModel::Type::Boolean.new.cast(params[:dry_run])
+      end
+
+      # Resolve the URL's current price without persisting anything.
+      def dry_run_url
+        store = Store.find(params[:store_id])
+        listing = Listing.new(store: store, url: params[:url], display_name: params[:name].presence, status: "active")
+        result = StoreAdapters.for(store).check(listing)
+        render json: {
+          dry_run: true,
+          price_cents: result.price_cents,
+          currency: result.currency,
+          in_stock: result.in_stock
+        }
+      rescue StoreAdapters::CheckFailed
+        render_error("parse_failed", message: "could not read a price from that URL", status: :unprocessable_entity)
+      rescue Http::BlockedError => e
+        render_error("blocked", message: e.message, status: :unprocessable_entity)
+      end
 
       def create_from_resolution(rules)
         gtin13 = Gtin.normalize(params[:barcode])
