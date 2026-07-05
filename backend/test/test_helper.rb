@@ -8,6 +8,9 @@ require "webmock/minitest"
 # No live HTTP in tests (see CLAUDE.md). In-process rack-test requests are unaffected.
 WebMock.disable_net_connect!
 
+# Shared test support (FakeAdapter, etc.).
+Dir[Rails.root.join("test/support/**/*.rb")].each { |file| require file }
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
