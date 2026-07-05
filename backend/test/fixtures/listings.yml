@@ -1,0 +1,17 @@
+cola_walmart:
+  product: cola
+  store: walmart
+  url: https://www.walmart.com/ip/acme-cola/123
+  store_ref: {}
+  currency: USD
+  status: active
+  consecutive_failures: 0
+
+widget_generic:
+  product: widget
+  store: generic
+  url: https://example.com/widget-deluxe
+  store_ref: {}
+  currency: USD
+  status: active
+  consecutive_failures: 0
