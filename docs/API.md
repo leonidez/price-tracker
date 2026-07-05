@@ -131,11 +131,26 @@ synchronously to capture the first price. `name` is optional.
 }
 ```
 
+### Dry run (URL mode only)
+Send `dry_run: true` (with `url` + `store_id`, no rules required) to resolve the
+current price **without persisting anything** — used to show the found price
+before the user picks rules.
+
+**Request**
+```json
+{ "url": "https://example.com/product", "store_id": 3, "dry_run": true }
+```
+**Response 200**
+```json
+{ "dry_run": true, "price_cents": 2499, "currency": "USD", "in_stock": true }
+```
+Same `422 parse_failed` / `blocked` errors as a real URL-mode create.
+
 **Errors**
 - `422 invalid_rules` — no rules provided.
 - `422 invalid_barcode` — barcode could not be normalized (mode 1).
-- `422 parse_failed` — the URL yielded no price (mode 2).
-- `422 blocked` — the store blocked the request (mode 2).
+- `422 parse_failed` — the URL yielded no price (mode 2 / dry run).
+- `422 blocked` — the store blocked the request (mode 2 / dry run).
 
 ---
 

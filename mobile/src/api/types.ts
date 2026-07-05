@@ -132,6 +132,13 @@ export interface UpdateWatchRequest {
   rules?: RuleInput[];
 }
 
+export interface DryRunResponse {
+  dry_run: true;
+  price_cents: number;
+  currency: string;
+  in_stock: boolean;
+}
+
 export interface DeviceRequest {
   expo_push_token: string;
   platform?: string;

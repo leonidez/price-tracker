@@ -57,6 +57,33 @@ module Api
         assert_equal "percent_drop", body["rules"].first["kind"]
       end
 
+      test "dry_run returns the resolved price without persisting" do
+        stub_request(:get, "https://example.com/dry")
+          .to_return(status: 200, body: Rails.root.join("test/fixtures/http/jsonld_graph.html").read)
+
+        assert_no_difference([ "Watch.count", "Listing.count", "PricePoint.count" ]) do
+          post "/api/v1/watches",
+               params: { url: "https://example.com/dry", store_id: stores(:generic).id, dry_run: true },
+               headers: auth_headers, as: :json
+        end
+        assert_response :ok
+        body = response.parsed_body
+        assert_equal true, body["dry_run"]
+        assert_equal 1299, body["price_cents"]
+        assert_equal "USD", body["currency"]
+      end
+
+      test "dry_run maps an unreadable page to 422 parse_failed" do
+        stub_request(:get, "https://example.com/drynp")
+          .to_return(status: 200, body: Rails.root.join("test/fixtures/http/no_price.html").read)
+
+        post "/api/v1/watches",
+             params: { url: "https://example.com/drynp", store_id: stores(:generic).id, dry_run: true },
+             headers: auth_headers, as: :json
+        assert_response :unprocessable_entity
+        assert_equal "parse_failed", response.parsed_body.dig("error", "code")
+      end
+
       test "create requires at least one rule" do
         post "/api/v1/watches",
              params: { url: "https://example.com/x", store_id: stores(:generic).id, rules: [] },
