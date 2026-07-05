@@ -26,10 +26,4 @@ class StoreAdaptersTest < ActiveSupport::TestCase
     store = Store.new(name: "Fake", slug: "fake", domain: "", adapter: "fake")
     assert_raises(StoreAdapters::UnknownAdapter) { StoreAdapters.for(store) }
   end
-
-  test "the Target placeholder raises NotImplementedError until #7" do
-    assert_raises(NotImplementedError) do
-      StoreAdapters.for(stores(:target)).resolve(gtin13: "0036000291452")
-    end
-  end
 end

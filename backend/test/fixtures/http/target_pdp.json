@@ -1,0 +1,22 @@
+{
+  "data": {
+    "product": {
+      "tcin": "54321",
+      "item": {
+        "primary_barcode": "036000291452",
+        "product_description": { "title": "Acme Cola 12pk" },
+        "enrichment": {
+          "images": { "primary_image_url": "https://target.scene7.com/is/image/Target/cola" },
+          "buy_url": "https://www.target.com/p/acme-cola-12pk/-/A-54321"
+        }
+      },
+      "price": {
+        "current_retail": 9.99,
+        "formatted_current_price": "$9.99"
+      },
+      "fulfillment": {
+        "is_out_of_stock_in_all_store_locations": false
+      }
+    }
+  }
+}
