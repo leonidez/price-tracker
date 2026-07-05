@@ -1,9 +1,13 @@
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { useNotificationDeepLinks } from "@/lib/push";
+
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
+  useNotificationDeepLinks();
+
   return (
     <QueryClientProvider client={queryClient}>
       <Stack>

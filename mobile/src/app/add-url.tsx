@@ -17,6 +17,7 @@ import { createWatch, dryRunUrl, getStores } from "@/api/endpoints";
 import type { RuleInput } from "@/api/types";
 import { RuleEditor } from "@/components/RuleEditor";
 import { formatCents } from "@/lib/money";
+import { registerForPush } from "@/lib/push";
 
 export default function AddByUrlScreen() {
   const queryClient = useQueryClient();
@@ -58,6 +59,8 @@ export default function AddByUrlScreen() {
       }),
     onSuccess: (watch) => {
       queryClient.invalidateQueries({ queryKey: ["watches"] });
+      // Offer push registration once the user has their first watch (not at launch).
+      registerForPush().catch(() => {});
       router.replace({ pathname: "/watch/[id]", params: { id: String(watch.id) } });
     },
   });
