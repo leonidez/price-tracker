@@ -14,4 +14,23 @@ namespace :probe do
   rescue Http::BlockedError => e
     warn "blocked (expected from a datacenter IP): #{e.message}"
   end
+
+  desc "Live Target resolve probe. Usage: bin/rails 'probe:target[0036000291452]'"
+  task :target, [ :gtin13 ] => :environment do |_task, args|
+    gtin13 = args[:gtin13]
+    abort "usage: bin/rails 'probe:target[<gtin13>]'" if gtin13.blank?
+
+    adapter = StoreAdapters.for(Store.find_by!(slug: "target"))
+    resolution = adapter.resolve(gtin13: gtin13)
+    puts "TCIN:       #{resolution.store_ref['tcin']}"
+    puts "Verified:   #{resolution.verified}"
+    puts "Store price: #{resolution.price_cents} #{resolution.currency}"
+    pp resolution
+  rescue StoreAdapters::ConfigurationError => e
+    warn e.message
+  rescue StoreAdapters::ResolveFailed => e
+    warn "resolve failed: #{e.code}"
+  rescue Http::BlockedError => e
+    warn "blocked (expected from a datacenter IP): #{e.message}"
+  end
 end

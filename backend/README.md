@@ -40,6 +40,34 @@ curl -i -H "Authorization: Bearer $API_TOKEN" localhost:3000/api/v1/ping # {"ok"
 curl -i localhost:3000/up                                                # 200 (no token needed)
 ```
 
+## Store adapter configuration
+
+### Target (RedSky)
+Target prices come from the unofficial **RedSky** JSON API, which needs two
+values stored in the `target` store's `config` (`stores.config`):
+
+- `redsky_key` — open the browser devtools **Network** tab on `target.com`, find
+  any request to `redsky.target.com`, and copy the `key` query param.
+- `store_id` — pick your store on `target.com`; the id appears in the URL /
+  network requests. This drives `pricing_store_id`, so prices are your store's
+  actual shelf price.
+
+Set them (e.g. from the console):
+```ruby
+store = Store.find_by!(slug: "target")
+store.update!(config: store.config.merge("redsky_key" => "<key>", "store_id" => "<id>"))
+```
+The adapter raises a clear `ConfigurationError` if either is missing. RedSky
+endpoint templates live in constants in `app/lib/store_adapters/target.rb` and
+are expected to be edited when Target drifts.
+
+## Live probes (manual, never CI)
+Store sites block datacenter IPs, so these only work from a home IP:
+```bash
+bin/rails "probe:walmart[<gtin13>]"
+bin/rails "probe:target[<gtin13>]"
+```
+
 ## Tests & lint
 ```bash
 bin/rails test       # minitest
