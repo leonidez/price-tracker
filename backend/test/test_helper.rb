@@ -3,6 +3,10 @@ ENV["RAILS_ENV"] ||= "test"
 ENV["API_TOKEN"] ||= "test_token"
 require_relative "../config/environment"
 require "rails/test_help"
+require "webmock/minitest"
+
+# No live HTTP in tests (see CLAUDE.md). In-process rack-test requests are unaffected.
+WebMock.disable_net_connect!
 
 module ActiveSupport
   class TestCase

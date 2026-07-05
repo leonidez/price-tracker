@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JSON-LD @graph product</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "BreadcrumbList", "itemListElement": [] },
+      {
+        "@type": ["Product", "IndividualProduct"],
+        "name": "Acme Cola 12pk",
+        "gtin13": "0001234500012",
+        "brand": { "@type": "Brand", "name": "Acme" },
+        "offers": {
+          "@type": "Offer",
+          "price": "12.99",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body><h1>Acme Cola 12pk</h1></body>
+</html>
