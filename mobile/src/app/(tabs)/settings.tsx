@@ -1,9 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Button, StyleSheet, Text, View } from "react-native";
 
 import { ApiError, apiBaseUrl } from "@/api/client";
-import { getPing } from "@/api/endpoints";
+import { getPing, getStores } from "@/api/endpoints";
 import { getPushPermissionStatus, registerForPush } from "@/lib/push";
+import { useDefaultStore } from "@/lib/storeMemory";
 
 type ConnectionState = "idle" | "loading" | "ok" | "error";
 
@@ -14,6 +16,11 @@ export default function SettingsScreen() {
   const [pushStatus, setPushStatus] = useState("checking…");
   const [pushBusy, setPushBusy] = useState(false);
   const [pushMessage, setPushMessage] = useState("");
+
+  const { storeId: defaultStoreId, clear: clearDefaultStore } = useDefaultStore();
+  const storesQuery = useQuery({ queryKey: ["stores"], queryFn: getStores });
+  const defaultStoreName =
+    storesQuery.data?.find((store) => store.id === defaultStoreId)?.name ?? null;
 
   useEffect(() => {
     getPushPermissionStatus().then(setPushStatus);
@@ -75,6 +82,14 @@ export default function SettingsScreen() {
         <Text style={[styles.result, pushMessage.includes("✓") ? styles.ok : styles.error]}>
           {pushMessage}
         </Text>
+      )}
+
+      <Text style={[styles.label, styles.section]}>Default store</Text>
+      <Text style={styles.value}>{defaultStoreName ?? "None (asked each scan)"}</Text>
+      {defaultStoreId !== null && (
+        <View style={styles.button}>
+          <Button title="Clear default store" onPress={() => clearDefaultStore()} />
+        </View>
       )}
     </View>
   );
