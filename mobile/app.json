@@ -27,6 +27,12 @@
       "expo-router",
       "expo-notifications",
       [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Price Tracker to use the camera to scan product barcodes."
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "backgroundColor": "#208AEF",

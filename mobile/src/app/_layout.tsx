@@ -12,6 +12,7 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="scan" options={{ title: "Scan barcode" }} />
         <Stack.Screen name="watch/[id]" options={{ title: "Watch" }} />
         <Stack.Screen name="add-url" options={{ title: "Add by URL" }} />
         <Stack.Screen name="edit/[id]" options={{ title: "Edit watch" }} />

@@ -3,11 +3,7 @@ import { Pressable, Text } from "react-native";
 
 function AddButton() {
   return (
-    <Pressable
-      onPress={() => router.push("/add-url")}
-      hitSlop={12}
-      style={{ paddingHorizontal: 16 }}
-    >
+    <Pressable onPress={() => router.push("/scan")} hitSlop={12} style={{ paddingHorizontal: 16 }}>
       <Text style={{ fontSize: 26, color: "#0a7ea4" }}>+</Text>
     </Pressable>
   );
